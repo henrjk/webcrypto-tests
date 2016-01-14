@@ -11,6 +11,19 @@
     <script src="bower_components/promiz/promiz.js"></script>
     <script src="bower_components/webcrypto-shim/webcrypto-shim.js"></script>
     <script>
+        // From http://stackoverflow.com/a/17056530
+        // Fix Function#name on browsers that do not support it (IE):
+        if (!(function f() {}).name) {
+            Object.defineProperty(Function.prototype, 'name', {
+                get: function() {
+                    var name = this.toString().match(/^\s*function\s*(\S*)\s*\(/)[1];
+                    // For better performance only parse once, and then cache the
+                    // result through a new accessor for repeated access.
+                    Object.defineProperty(this, 'name', { value: name });
+                    return name;
+                }
+            });
+        }
 
         function format_code(func) {
             var source = func.toString()
