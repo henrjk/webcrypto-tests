@@ -8,3 +8,8 @@ At the moment this is about issues I ran into when working on related code.
 It is not intended to become a central resource about web crypto implementation issues. 
 
 I don't indent to engage in discussing issues or accept PRs here. 
+
+## Show tests
+
+* [live test](https://cdn.rawgit.com/henrjk/webcrypto-tests/master/index.html)
+
