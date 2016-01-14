@@ -1,0 +1,24 @@
+{
+  "name": "promiz",
+  "main": "promiz.js",
+  "version": "1.0.6",
+  "homepage": "https://github.com/Zolmeister/promiz",
+  "authors": [
+    "Zolmeister <zolikahan@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "test",
+    "imgs",
+    ".*"
+  ],
+  "_release": "1.0.6",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.0.6",
+    "commit": "d0d4201c0806b34b0b58eaa9bc43b361a9a1a09c"
+  },
+  "_source": "git://github.com/Zolmeister/promiz.git",
+  "_target": "~1.0.4",
+  "_originalSource": "promiz"
+}

@@ -8,11 +8,9 @@
         .ok {color: green;}
         .failed {color: firebrick}
     </style>
+    <script src="bower_components/promiz/promiz.js"></script>
+    <script src="bower_components/webcrypto-shim/webcrypto-shim.js"></script>
     <script>
-        window.crypto = window.crypto || window.msCrypto // IE not edge
-        if(window.crypto.webkitSubtle){
-            window.crypto.subtle = window.crypto.webkitSubtle
-        }
 
         function format_code(func) {
             var source = func.toString()
