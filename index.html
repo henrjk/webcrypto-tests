@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Webcrypto tests</title>
+    <style>
+        body{font-family:sans-serif;}
+        .ok {color: green;}
+        .failed {color: firebrick}
+    </style>
+    <script>
+        window.crypto = window.crypto || window.msCrypto // IE not edge
+        if(window.crypto.webkitSubtle){
+            window.crypto.subtle = window.crypto.webkitSubtle
+        }
+
+        function format_code(func) {
+            var source = func.toString()
+            return source
+        }
+
+        function ok(func, value) {
+            var id = func.name
+            var code = format_code(func)
+            var result = document.createElement('div')
+            result.innerHTML = '<p class="ok">OK, return value=' +
+                    value + '</p><pre>' + code + '</pre>'
+            var idElem = document.querySelector('#' + id)
+            idElem.className = "ok"
+            var idInsertionPoint = idElem.nextElementSibling
+            idElem.parentNode.insertBefore(result, idInsertionPoint)
+        }
+
+        function failed(func, err) {
+            var id = func.name
+            var code = format_code(func)
+            var result = document.createElement('div')
+            result.innerHTML = '<p class="failed"><b>FAILED</b>, error=' +
+                    err + '</p><pre>' + code + '</pre>'
+            var idElem = document.querySelector('#' + id)
+            idElem.className = "failed"
+            var idInsertionPoint = idElem.nextElementSibling
+            idElem.parentNode.insertBefore(result, idInsertionPoint)
+        }
+    </script>
+</head>
+<body>
+    <h1>Webcrypto test to demonstrate potential Browser implementation issues</h1>
+    <p>
+        This page runs its Web Crypto tests in your Browser!
+        Each section below show whether particular code is supported by
+        your browser in its implementation of the <a href="http://www.w3.org/TR/WebCryptoAPI/" target="_blank">WebCryptoAPI</a>.
+    </p>
+    <p>Passing tests are shown with <span class="ok"> OK and the result in a green color</span>.</p>
+    <p>Failing tests are shown with <span class="failed"> FAILED and the error in a redish tone</span>.</p>
+    <p>
+        Source code and examples: Link to GitHub TODO
+    </p>
+    <h2 id='importjwk_with_use_sig' >Import JWK with 'use: "sig"' </h2>
+    <script>
+    function importjwk_with_use_sig () {
+        "use strict"
+        var jwk = {
+            "kty": "RSA",
+            "use": "sig",
+            "alg": "RS256",
+            "n": "nhubIr98ugQw-6JHq4c5aWGMlFAU-6dXFYewby7A-d4mY_EIY9tujJWUIa0PXGx8e3KAi7vOF81tvUCIdbmlzduLWTy50zcIdBRO6d65020yQg4Mab-lNXedDVMfW2v15uq5PfrQNMSGSaO__ktnCyc4DQcB__cYb1-7yCXnmaGkqfKFamRusevK6HxzHyFTMvCLlGvmADUiuFA_1IVfbLryy5JLTCnsehBMiJ7oRfL8bY4mLuSolLRSORcrtk-p_no4YGb5OVgGbDJd1ZndsGCWeU-MFvrt7FIyJeaL7J54Vrna1YtmU6o1_oJZvZes1_o9YLG3Q1ntXcc86uM6Yw",
+            "e": "AQAB"
+        }
+        crypto.subtle.importKey(
+            'jwk', jwk,
+            {name: 'RSASSA-PKCS1-v1_5', hash: {name: 'SHA-256'}},
+            true, // extractable
+            ['verify']
+        ).then( function (key) {
+            ok(importjwk_with_use_sig, key)
+        }, function (err) {
+            failed(importjwk_with_use_sig, err)
+        })
+    }
+    importjwk_with_use_sig()
+    </script>
+    <h2 id='importjwk_omit_use_sig' >Import JWK without 'use' key </h2>
+    <script>
+        function importjwk_omit_use_sig () {
+            "use strict"
+            var jwk = {
+                "kty": "RSA",
+                "alg": "RS256",
+                "n": "nhubIr98ugQw-6JHq4c5aWGMlFAU-6dXFYewby7A-d4mY_EIY9tujJWUIa0PXGx8e3KAi7vOF81tvUCIdbmlzduLWTy50zcIdBRO6d65020yQg4Mab-lNXedDVMfW2v15uq5PfrQNMSGSaO__ktnCyc4DQcB__cYb1-7yCXnmaGkqfKFamRusevK6HxzHyFTMvCLlGvmADUiuFA_1IVfbLryy5JLTCnsehBMiJ7oRfL8bY4mLuSolLRSORcrtk-p_no4YGb5OVgGbDJd1ZndsGCWeU-MFvrt7FIyJeaL7J54Vrna1YtmU6o1_oJZvZes1_o9YLG3Q1ntXcc86uM6Yw",
+                "e": "AQAB"
+            }
+            crypto.subtle.importKey(
+                    'jwk', jwk,
+                    {name: 'RSASSA-PKCS1-v1_5', hash: {name: 'SHA-256'}},
+                    true, // extractable
+                    ['verify']
+            ).then( function (key) {
+                ok(importjwk_omit_use_sig, key)
+            }, function (err) {
+                failed(importjwk_omit_use_sig, err)
+            })
+        }
+        importjwk_omit_use_sig()
+    </script>
+</p>
+
+
+</body>
+</html>
